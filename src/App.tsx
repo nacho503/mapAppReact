@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import logo from './logo.svg';
 import Navbar from './components/navbar/Navbar';
+
 import './App.css';
 import './styles/styles.scss';
 

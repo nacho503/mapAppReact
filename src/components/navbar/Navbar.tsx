@@ -1,9 +1,15 @@
+// Navbar.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import LoginButton from './login-button/LoginButton';
-import './Navbar.scss'
+import UserDisplay from './user-display/UserDisplay';
+import './Navbar.scss';
 
 const Navbar: React.FC = () => {
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
+
   return (
     <div className="navbar">
       <div className="navbar-container">
@@ -15,7 +21,7 @@ const Navbar: React.FC = () => {
         </div>
         <ul className="nav-menu">
           <li className="nav-item">
-            <LoginButton/>
+            {isLoggedIn ? <UserDisplay /> : <LoginButton />}
           </li>
           <li className="nav-item">
             <Link to="/" className="nav-links">
