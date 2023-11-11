@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import LoginButton from './login-button/LoginButton';
 import './Navbar.scss'
 
 const Navbar: React.FC = () => {
@@ -13,6 +14,9 @@ const Navbar: React.FC = () => {
           {/* You can add a menu icon for mobile responsiveness */}
         </div>
         <ul className="nav-menu">
+          <li className="nav-item">
+            <LoginButton/>
+          </li>
           <li className="nav-item">
             <Link to="/" className="nav-links">
               Home
