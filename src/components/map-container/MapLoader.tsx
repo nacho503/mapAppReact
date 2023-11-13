@@ -24,7 +24,7 @@ const Map: React.FC<MapProps> = (
     useEffect(() => {
       if (ref.current && !map) {
         setMap(new window.google.maps.Map(ref.current, {
-          zoom: 8,
+          zoom: 14,
           center: { lat: -38.735901, lng: -72.590378 }, 
           ...options, 
         }));
