@@ -1,8 +1,8 @@
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import logo from './logo.svg';
 import Navbar from './components/navbar/Navbar';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import UserAuthenticationWrapper from './utils/UserAuthenticationWrapper';
+
 import './App.css';
 import './styles/styles.scss';
 import Map from './components/map-container/MapLoader';
@@ -20,13 +20,16 @@ const style = {
   };
 
 function App() {
+
   return (
     <Router>
     <div className="App">
       <Navbar/>
+      <UserAuthenticationWrapper>
       <Wrapper apiKey={API_KEY} render={render}>
         <Map style={style}/>
       </Wrapper>
+      </UserAuthenticationWrapper>
     </div>
     </Router>
   );
