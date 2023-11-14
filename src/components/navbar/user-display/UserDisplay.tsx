@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import {RootState} from '../../../store/store'
 import LogoutButton from '../login-button/logout-button/LogOutButton';
+import '../../navbar/Navbar.scss'
 
 
 const UserDisplay: React.FC = () => {
@@ -10,7 +11,7 @@ const UserDisplay: React.FC = () => {
 
   return (
     
-    <div>
+    <div className='user-name-container'>
       {user ? (
         <>
         <p>Hi, {user.email}!</p>
