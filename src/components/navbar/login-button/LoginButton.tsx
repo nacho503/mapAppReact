@@ -1,6 +1,6 @@
 import React, { useState, FormEvent  } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginSuccess, loginFailure } from './LoginSlice';
+import { loginSuccess, loginFailure } from '../../../store/login/LoginSlice';
 import '../Navbar.scss' // Import your styles
 
 const LoginButton: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { logout } from '../LoginSlice';
+import { logout } from '../../../../store/login/LoginSlice';
 
 const LogOutButton: React.FC = () => {
   const dispatch = useDispatch();
