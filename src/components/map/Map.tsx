@@ -6,6 +6,7 @@ interface MapProps extends google.maps.MapOptions {
   style: { [key: string]: string };
   onClick?: (e: google.maps.MapMouseEvent) => void;
   onIdle?: (map: google.maps.Map) => void;
+  children: React.ReactNode | React.ReactNode[];
 }
 
 
@@ -13,7 +14,7 @@ const Map: React.FC<MapProps> = (
   {
     onClick,
     onIdle,
-    // children,
+    children,
     style,
     ...options
   }
@@ -31,7 +32,15 @@ const Map: React.FC<MapProps> = (
       }
     }, [ref, map,options]);
 
-    return <div ref={ref} style={style}/>
+    return <><div ref={ref} style={style}/>
+     {React.Children.map(children, (child) => {
+      if (React.isValidElement(child)) {
+        // set the map prop on the child component
+        // @ts-ignore
+        return React.cloneElement(child, { map });
+      }
+    })}
+    </>
 };
 
 
