@@ -7,6 +7,8 @@ const LoginButton: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -16,11 +18,13 @@ const LoginButton: React.FC = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setError(null);
   };
 
 
   const handleLoginSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       // Assuming your API endpoint returns a JSON object with a 'token' field upon successful login
@@ -34,17 +38,17 @@ const LoginButton: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-
         sessionStorage.setItem('token', data.token);
-
-        
         dispatch(loginSuccess({ email: email }));
         handleCloseModal();
       } else {
-        throw new Error('Login failed');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
       }
-    } catch (error) {
-      dispatch(loginFailure('Invalid credentials'));
+    } catch (error:any) {
+      setError(error.message || 'An error occurred');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,7 +65,7 @@ const LoginButton: React.FC = () => {
               &times;
             </span>
             <h2>Login</h2>
-            {/* Add your login form here */}
+            
             <form onSubmit={handleLoginSubmit}>
               <label>Email:</label>
               <input   type="email"
@@ -75,7 +79,11 @@ const LoginButton: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}/>
 
-              <button type="submit">Login</button>
+              {error && <p className="error-message">{error}</p>}
+
+              <button type="submit" disabled={isLoading}>
+                {isLoading ? 'Logging in...' : 'Login'}
+              </button>
             </form>
           </div>
         </div>
