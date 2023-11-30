@@ -3,6 +3,7 @@ import Navbar from './components/navbar/Navbar';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import UserAuthenticationWrapper from './utils/UserAuthenticationWrapper';
 
+
 import './App.css';
 import './styles/styles.scss';
 import Map from './components/map/Map';
