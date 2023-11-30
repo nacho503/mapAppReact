@@ -1,7 +1,7 @@
 @import '../../styles/styles.scss';
 
 .navbar {
-  background-color: #333;
+  background-color: $basic;
   height: 80px;
   display: flex;
   justify-content: center;
@@ -30,7 +30,17 @@
 
 .nav-menu {
   display: flex;
+  align-items: center;
+  justify-content: center;
   list-style: none;
+  .nav-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-item a{
+    text-align: center;
+  }
 }
 
 .nav-item {
@@ -44,16 +54,17 @@
   transition: color 0.3s ease-in-out;
 
   &:hover {
-    color: $primary-color; /* Change the color on hover */
+    color: $basic-buttons; /* Change the color on hover */
   }
 }
 
 /******************************************* Login Button */
 .login-button {
-  background-color: #007bff;
+  background-color: $basic-buttons;
   color: #fff;
   padding: 10px 15px;
   border: none;
+  border-radius: 35px;
   cursor: pointer;
 }
 
