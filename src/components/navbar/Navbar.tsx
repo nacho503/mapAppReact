@@ -1,14 +1,12 @@
 // Navbar.tsx
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import LoginButton from './login-button/LoginButton';
+import LoginButton from './log-user/login-button/LoginButton';
 import UserDisplay from './user-display/UserDisplay';
 import './Navbar.scss';
 
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import GoogleAuth from '../../utils/GoogleAuth';
 
 const Navbar: React.FC = () => {
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
@@ -26,12 +24,6 @@ const Navbar: React.FC = () => {
           <li className="nav-item">
             {isLoggedIn ? <UserDisplay /> : <LoginButton />}
           </li>
-          <li className="nav-item">
-           <GoogleOAuthProvider clientId="743392961384-04cv11v4msdvhptq78n7bsid5a4jlqu6.apps.googleusercontent.com">
-             <GoogleAuth />
-          </GoogleOAuthProvider>
-          </li>
-
 
           <li className="nav-item">
             <Link to="/" className="nav-links">
