@@ -1,5 +1,5 @@
 // Navbar.tsx
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
