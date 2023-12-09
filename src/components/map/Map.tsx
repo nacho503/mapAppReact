@@ -4,7 +4,6 @@ import React , {useEffect,useState,useRef} from 'react';
 
 interface MapProps extends google.maps.MapOptions {
   style: { [key: string]: string };
-  onClick?: (e: google.maps.MapMouseEvent) => void;
   onIdle?: (map: google.maps.Map) => void;
   children: React.ReactNode | React.ReactNode[];
 }
@@ -12,7 +11,6 @@ interface MapProps extends google.maps.MapOptions {
 
 const Map: React.FC<MapProps> = (
   {
-    onClick,
     onIdle,
     children,
     style,
@@ -22,25 +20,42 @@ const Map: React.FC<MapProps> = (
     const ref = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<google.maps.Map>();
 
-    useEffect(() => {
-      if (ref.current && !map) {
-        setMap(new window.google.maps.Map(ref.current, {
-          zoom: 14,
-          center: { lat: -38.735901, lng: -72.590378 }, 
-          ...options, 
-        }));
-      }
-    }, [ref, map,options]);
+    const handleMapClick = (e: google.maps.MapMouseEvent) => {
+      console.log('Clicked at:', e.latLng.lat(), e.latLng.lng());
+      // You can do something with the coordinates here
+    };
 
-    return <><div ref={ref} style={style}/>
-     {React.Children.map(children, (child) => {
-      if (React.isValidElement(child)) {
-        // set the map prop on the child component
-        // @ts-ignore
-        return React.cloneElement(child, { map });
-      }
-    })}
-    </>
+    useEffect(() => {
+      const initializeMap = () => {
+        if (ref.current && !map) {
+          const newMap = new window.google.maps.Map(ref.current, {
+            zoom: 14,
+            center: { lat: -38.735901, lng: -72.590378 },
+            ...options,
+          });
+  
+          if (handleMapClick) {
+            newMap.addListener('click', handleMapClick);
+          }
+  
+          setMap(newMap);
+        }
+      };
+  
+      initializeMap();
+    }, [ref, map,handleMapClick, options]);
+  
+
+    return <>
+           <div ref={ref} style={style}/>
+            {React.Children.map(children, (child) => {
+              if (React.isValidElement(child)) {
+                // set the map prop on the child component
+                // @ts-ignore
+                return React.cloneElement(child, { map });
+              }
+            })}
+      </>
 };
 
 

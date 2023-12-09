@@ -41,7 +41,7 @@ function App({ latitude, longitude,loading }: AppProps) {
       <UserAuthenticationWrapper>
       <Wrapper apiKey={API_KEY} render={render}>
         <LocationProvider/> 
-        <Map style={style}>
+        <Map style={style} > 
         {position !== null && <Marker position={position} icon={jake} />}
         </Map>
       </Wrapper>
