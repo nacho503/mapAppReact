@@ -1,19 +1,18 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import Navbar from './components/navbar/Navbar';
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import UserAuthenticationWrapper from './utils/UserAuthenticationWrapper';
+import { Wrapper, Status as MapsStatus } from "@googlemaps/react-wrapper";
 import { connect } from 'react-redux';
 import { RootState } from './store/store';
+import { PacmanLoader } from 'react-spinners';
+
+import UserAuthenticationWrapper from './utils/UserAuthenticationWrapper';
 import LocationProvider from './utils/LocationProvider';
+import Navbar from './components/navbar/Navbar';
 
 import './styles/styles.scss';
 import Map from './components/map/Map';
 import Marker from './components/map/Marker';
 import jake from './assets/map-icons/jake.png'
 
-const render = (status: Status) => {
-  return <h1>{status}</h1>;
-};
 
 interface AppProps {
   latitude: number | null;
@@ -29,10 +28,22 @@ const style = {
   height: "90vh",
   };
 
+  const render = (status: MapsStatus | null): JSX.Element => {
+    if (status === MapsStatus.LOADING) {
+      return (
+        <div className="loading-spinner-overlay">
+          <PacmanLoader color="#36D7B7" size={50} />
+        </div>
+      );
+    } else if (status === MapsStatus.FAILURE) {
+      return <h1>Error loading map</h1>;
+    } else {
+      return <div />; // or any other content you want to display when the map is loaded
+    }
+  };
+
 function App({ latitude, longitude,loading }: AppProps) {
-  const position = loading
-  ? null 
-  : { lat: latitude!, lng: longitude! }; 
+  const position = loading ? null : { lat: latitude!, lng: longitude! };
 
   return (
     <Router>
@@ -41,6 +52,11 @@ function App({ latitude, longitude,loading }: AppProps) {
       <UserAuthenticationWrapper>
       <Wrapper apiKey={API_KEY} render={render}>
         <LocationProvider/> 
+        {loading && (
+          <div className="loading-spinner-overlay-fullscreen">
+            <PacmanLoader color="#36D7B7" size={50} />
+          </div>
+        )}
         <Map style={style} > 
         {position !== null && <Marker position={position} icon={jake} />}
         </Map>

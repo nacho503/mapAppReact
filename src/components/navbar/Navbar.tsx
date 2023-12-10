@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import PinMapButton from './create-pin/PinMapButton'
 import LoginButton from './log-user/login-button/LoginButton';
 import UserDisplay from './user-display/UserDisplay';
 import './Navbar.scss';
@@ -20,7 +21,13 @@ const Navbar: React.FC = () => {
         <div className="menu-icon">
           {/* You can add a menu icon for mobile responsiveness */}
         </div>
+       
         <ul className="nav-menu">
+        {isLoggedIn && (
+            <li className="nav-item">
+              <PinMapButton />
+            </li>
+          )}
           <li className="nav-item">
             {isLoggedIn ? <UserDisplay /> : <LoginButton />}
           </li>
