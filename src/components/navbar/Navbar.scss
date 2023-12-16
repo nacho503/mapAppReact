@@ -64,7 +64,7 @@
   color: #fff;
   padding: 10px 15px;
   border: none;
-  border-radius: 35px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -88,7 +88,7 @@
   transform: translate(-50%, -50%);
   background-color: #fff;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   .error-message{
     color: red;
   }
@@ -115,14 +115,9 @@
   justify-content: center;
   display: flex;
   .logout-button {
-    height: 25px;
-    width: 25px;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    font-size: 10px; 
   }
 
 }
@@ -132,6 +127,31 @@
   color: #fff;
   padding: 10px 15px;
   border: none;
-  border-radius: 35px;
+  border-radius: 10px;
   cursor: pointer;
 }
+
+//Pin map container
+
+.modal-overlay-map-form {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-form-container {
+  width: 90%;
+  height: 70%;
+  background: #fff; /* White background for the modal */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: Add a box shadow for depth */
+}
+
