@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ChooseLocationButton from './ChooseLocationButton';
 import './Styles.scss';
 
 const MapForm: React.FC = () => {
@@ -116,6 +117,7 @@ const MapForm: React.FC = () => {
             className='description-textarea'
           />
         </label>
+        <ChooseLocationButton/>
         </div>
       </div>
       <button onClick={handleConfirmClick} className="confirm-button">

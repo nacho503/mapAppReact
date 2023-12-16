@@ -1,8 +1,10 @@
+import { useEffect,useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Wrapper, Status as MapsStatus } from "@googlemaps/react-wrapper";
 import { connect } from 'react-redux';
 import { RootState } from './store/store';
 import { PacmanLoader } from 'react-spinners';
+import { useSelector } from 'react-redux';
 
 import UserAuthenticationWrapper from './utils/UserAuthenticationWrapper';
 import LocationProvider from './utils/LocationProvider';
@@ -18,6 +20,7 @@ interface AppProps {
   latitude: number | null;
   longitude: number | null;
   loading: boolean;
+  isSelectingPoint: boolean;
 }
 
 
@@ -43,7 +46,13 @@ const style = {
   };
 
 function App({ latitude, longitude,loading }: AppProps) {
+  const [mapKey, setMapKey] = useState(0);
   const position = loading ? null : { lat: latitude!, lng: longitude! };
+  const isSelectingPoint = useSelector((state: RootState) => state.formPointSelection.isSelectingPoint);
+
+  useEffect(() => {
+    setMapKey((prevKey) => prevKey + 1);
+  }, [isSelectingPoint]);
 
   return (
     <Router>
@@ -57,7 +66,7 @@ function App({ latitude, longitude,loading }: AppProps) {
             <PacmanLoader color="#36D7B7" size={50} />
           </div>
         )}
-        <Map style={style} > 
+        <Map key={mapKey} style={style} isSelectingPoint={isSelectingPoint}> 
         {position !== null && <Marker position={position} icon={jake} />}
         </Map>
       </Wrapper>
@@ -71,6 +80,7 @@ const mapStateToProps = (state: RootState) => ({
   latitude: state.position.latitude,
   longitude: state.position.longitude,
   loading: state.position.latitude === null || state.position.longitude === null,
+  isSelectingPoint: state.formPointSelection.isSelectingPoint,
 });
 
 export default connect(mapStateToProps)(App);
