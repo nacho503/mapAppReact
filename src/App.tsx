@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import UserAuthenticationWrapper from './utils/UserAuthenticationWrapper';
 import LocationProvider from './utils/LocationProvider';
 import Navbar from './components/navbar/Navbar';
+import AcceptSelectedLocation from './components/pin-map-form/AcceptSelectedLocation';
 
 import './styles/styles.scss';
 import Map from './components/map/Map';
@@ -58,6 +59,7 @@ function App({ latitude, longitude,loading }: AppProps) {
     <Router>
     <div className="App">
       <Navbar/>
+      <AcceptSelectedLocation/>
       <UserAuthenticationWrapper>
       <Wrapper apiKey={API_KEY} render={render}>
         <LocationProvider/> 

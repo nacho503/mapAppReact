@@ -25,6 +25,7 @@ const Map: React.FC<MapProps> = (
     const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
     const dispatch = useDispatch();
     const selectedPoint = useSelector((state: RootState) => state.formPointSelection.selectedPoint);
+    const markers: google.maps.Marker[] = [];
 
     // const isSelectingPoint = useSelector((state: RootState) => state.formPointSelection.isSelectingPoint);
 
@@ -36,6 +37,7 @@ const Map: React.FC<MapProps> = (
       dispatch(setSelectedPoint({ lat: e.latLng.lat(), lng: e.latLng.lng()}));
       }
     };
+
 
   //Set user location
     useEffect(()=>{
@@ -52,8 +54,15 @@ const Map: React.FC<MapProps> = (
     },[])
 
     useEffect(() => {
+      const cleanup = () => {
+        // Clear existing markers
+        markers.forEach((marker) => marker.setMap(null));
+        markers.length = 0; // Clear the array
+      };
+
       console.log('isSelectingPoint:', isSelectingPoint);
       const initializeMap = () => {
+        cleanup();
         if (ref.current && !map) {
           const newMap = new window.google.maps.Map(ref.current, {
             zoom: 14,
@@ -72,6 +81,8 @@ const Map: React.FC<MapProps> = (
       setTimeout(()=>{
         initializeMap();
       },2000)
+
+      return cleanup //Agregar este punto como el ultimo marker asi no desaparece
       
     }, [ref, map,handleMapClick, options, isSelectingPoint,selectedPoint,userLocation]);
 
@@ -79,19 +90,21 @@ const Map: React.FC<MapProps> = (
       if (map && selectedPoint) {
         const newMarker = new google.maps.Marker({
           position: {
-            lat: selectedPoint.lat || 0, // Usar 0 si lat es null
-            lng: selectedPoint.lng || 0, // Usar 0 si lng es null
+            lat: selectedPoint.lat || 0,
+            lng: selectedPoint.lng || 0,
           },
           map: map,
-          // Otras opciones de marcador si es necesario
+          // Other marker options if needed
         });
-
-        // Opcional: Agregar un escucha de clic al marcador si es necesario
+  
+        // Optional: Add a click listener to the new marker if needed
         newMarker.addListener('click', () => {
-          // Manejar clic en el marcador si es necesario
+          // Handle click on the marker if needed
         });
+  
+        markers.push(newMarker);
       }
-    }, [map, selectedPoint]);
+    }, [map, selectedPoint, markers]);
   
 
     return <>
