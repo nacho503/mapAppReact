@@ -22,6 +22,7 @@ const Map: React.FC<MapProps> = (
 ) => {
     const ref = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<google.maps.Map>();
+    const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
     const dispatch = useDispatch();
     const selectedPoint = useSelector((state: RootState) => state.formPointSelection.selectedPoint);
 
@@ -36,13 +37,27 @@ const Map: React.FC<MapProps> = (
       }
     };
 
+  //Set user location
+    useEffect(()=>{
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+          setUserLocation({ lat: latitude, lng: longitude });
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    },[])
+
     useEffect(() => {
       console.log('isSelectingPoint:', isSelectingPoint);
       const initializeMap = () => {
         if (ref.current && !map) {
           const newMap = new window.google.maps.Map(ref.current, {
             zoom: 14,
-            center: { lat: -38.735901, lng: -72.590378 },
+            center: { lat: userLocation.lat, lng: userLocation.lng },
             ...options,
           });
           
@@ -54,9 +69,11 @@ const Map: React.FC<MapProps> = (
           setMap(newMap);
         }
       };
-  
-      initializeMap();
-    }, [ref, map,handleMapClick, options, isSelectingPoint,selectedPoint]);
+      setTimeout(()=>{
+        initializeMap();
+      },2000)
+      
+    }, [ref, map,handleMapClick, options, isSelectingPoint,selectedPoint,userLocation]);
 
     useEffect(() => {
       if (map && selectedPoint) {
