@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
         <ul className="nav-menu">
         {isLoggedIn && (
             <li className="nav-item">
-              <PinMapButton />
+              <PinMapButton buttonText='Pin Map'/>
             </li>
           )}
           <li className="nav-item">

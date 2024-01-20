@@ -3,7 +3,11 @@ import MapForm from '../../pin-map-form/MapForm';
 import '../Navbar.scss'
 import closeIcon from '../../../assets/icons/close-icon.svg'
 
-const PinMapButton: React.FC = () => {
+interface PinMapButtonProps {
+  buttonText: string;
+}
+
+const PinMapButton: React.FC<PinMapButtonProps> = ({ buttonText }) => {
   const [showForm, setShowForm] = useState(false);
 
   const handleButtonClick = () => {
@@ -13,7 +17,7 @@ const PinMapButton: React.FC = () => {
   return (
     <div>
       <button onClick={handleButtonClick} className="pin-map-button">
-        Pin Map
+        {buttonText}
       </button>
       {showForm && (
         <div className="modal-overlay-map-form">

@@ -62,7 +62,7 @@ const Map: React.FC<MapProps> = (
 
       console.log('isSelectingPoint:', isSelectingPoint);
       const initializeMap = () => {
-        cleanup();
+       
         if (ref.current && !map) {
           const newMap = new window.google.maps.Map(ref.current, {
             zoom: 14,
@@ -72,6 +72,7 @@ const Map: React.FC<MapProps> = (
           
   
           if (handleMapClick) {
+            cleanup();
             newMap.addListener('click', handleMapClick);
           }
   
