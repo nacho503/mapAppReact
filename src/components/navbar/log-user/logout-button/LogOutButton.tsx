@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../../store/login/LoginSlice';
+import closeIcon from '../../../../assets/icons/close-icon.svg'
 
 const LogOutButton: React.FC = () => {
   const dispatch = useDispatch();
@@ -15,8 +16,7 @@ const LogOutButton: React.FC = () => {
 
   return (
     <button className="logout-button" onClick={handleLogoutClick}>
-      {/* You can customize the icon here, for example, using an "x" inside a circle */}
-      &#x2715;
+       <img src={closeIcon} alt="Close" />
     </button>
   );
 };
