@@ -40,18 +40,25 @@ const Map: React.FC<MapProps> = (
 
 
   //Set user location
-    useEffect(()=>{
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
           console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
           setUserLocation({ lat: latitude, lng: longitude });
-        });
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-      }
-    },[])
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          // Handle the error gracefully, e.g., display a user message
+        },
+        { timeout: 5000 } // Timeout after 5 seconds
+      );
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
     useEffect(() => {
       const cleanup = () => {
